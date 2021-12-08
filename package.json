@@ -71,7 +71,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eggjs/egg-study-gaiajs-admin.git"
+    "url": "git@github.com:doubler1125/study-gaiajs-admin.git"
   },
   "bugs": {
     "url": "https://github.com/eggjs/egg/issues"
@@ -80,6 +80,6 @@
   "eslintIgnore": [
     "coverage"
   ],
-  "author": "Doubler1125",
+  "author": "blue1125",
   "license": "MIT"
 }
