@@ -1,6 +1,6 @@
 {
   "name": "study-gaiajs-admin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A admin study project from gaiajs",
   "egg": {
     "framework": "@gaiajs/gaiajs",
