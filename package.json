@@ -76,7 +76,7 @@
   "bugs": {
     "url": "https://github.com/eggjs/egg/issues"
   },
-  "homepage": "https://github.com/eggjs/egg-study-gaiajs-admin#readme",
+  "homepage": "https://github.com/doubler1125/study-gaiajs-admin#readme",
   "eslintIgnore": [
     "coverage"
   ],
