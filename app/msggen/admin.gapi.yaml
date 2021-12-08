@@ -1,0 +1,450 @@
+paths:
+  - name: AdminSuperUsersList
+    url: /admin/super/admin_users
+    comment: 查看管理员
+    tags:
+      - 系统管理
+    auth_required: true
+    method: get
+    parameters:
+      skip:
+        type: int
+        required: false
+      limit:
+        type: int
+        required: false
+    response:
+      properties:
+        data:
+          properties:
+            count:
+              type: int
+            users:
+              type: AdminUser[]
+
+  - name: AdminSuperUserAdd
+    url: /admin/super/admin_user
+    comment: 创建管理员
+    tags:
+      - 系统管理
+    auth_required: true
+    method: post
+    parameters:
+      username:
+        in: body
+        type: string
+        required: true
+      roles:
+        in: body
+        type: string[]
+        required: false
+    response:
+      properties:
+        data:
+          type: AdminUser
+
+  - name: AdminSuperUserDel
+    url: /admin/super/admin_user
+    comment: 删除管理员
+    tags:
+      - 系统管理
+    auth_required: true
+    method: delete
+    parameters:
+      username:
+        in: body
+        type: string
+        required: true
+    response:
+      properties:
+        success:
+          type: boolean
+        info:
+          type: string
+
+  - name: AdminSuperUserRoleAdd
+    url: /admin/super/admin_user/role
+    comment: 管理员添加角色
+    tags:
+      - 系统管理
+    auth_required: true
+    method: post
+    parameters:
+      username:
+        in: body
+        type: string
+        required: true
+      role:
+        in: body
+        type: string
+        required: true
+    response:
+      properties:
+        data:
+          type: AdminUser
+
+  - name: AdminSuperUserRoleDel
+    url: /admin/super/admin_user/role
+    comment: 管理员删除角色
+    tags:
+      - 系统管理
+    auth_required: true
+    method: delete
+    parameters:
+      username:
+        in: body
+        type: string
+        required: true
+      role:
+        in: body
+        type: string
+        required: true
+    response:
+      properties:
+        data:
+          type: AdminUser
+
+  - name: AdminSuperRoleList
+    url: /admin/super/roles
+    comment: 查看角色列表
+    tags:
+      - 系统管理
+    auth_required: true
+    method: get
+    parameters:
+      skip:
+        type: int
+        required: false
+      limit:
+        type: int
+        required: false
+    response:
+      properties:
+        data:
+          properties:
+            count:
+              type: int
+            roles:
+              type: AdminRole[]
+
+  - name: AdminSuperRole
+    url: /admin/super/role
+    comment: 查看角色
+    tags:
+      - 系统管理
+    auth_required: true
+    method: get
+    parameters:
+      role:
+        type: string
+        required: true
+    response:
+      properties:
+        data:
+          type: AdminRole
+
+  - name: AdminSuperRoleAdd
+    url: /admin/super/role
+    comment: 新建角色
+    tags:
+      - 系统管理
+    auth_required: true
+    method: post
+    parameters:
+      role:
+        type: any
+        required: true
+    response:
+      properties:
+        data:
+          type: AdminRole
+
+  - name: AdminSuperRoleDel
+    url: /admin/super/role
+    comment: 删除角色
+    tags:
+      - 系统管理
+    auth_required: true
+    method: delete
+    parameters:
+      role:
+        in: body
+        type: string
+        required: true
+    response:
+      properties:
+        success:
+          type: boolean
+        info:
+          type: string
+
+  - name: AdminSuperRoleEdit
+    url: /admin/super/role
+    comment: 编辑角色
+    tags:
+      - 系统管理
+    auth_required: true
+    method: put
+    parameters:
+      name:
+        type: string
+        required: true
+      role:
+        type: any
+        required: true
+    response:
+      properties:
+        data:
+          type: AdminRole
+
+  - name: AdminSuperPermissionNodesList
+    url: /admin/super/permissionNodes
+    comment: 查看权限项列表
+    tags:
+      - 系统管理
+    auth_required: true
+    method: get
+    parameters:
+      skip:
+        type: int
+        required: false
+      limit:
+        type: int
+        required: false
+    response:
+      properties:
+        data:
+          properties:
+            count:
+              type: int
+            nodes:
+              type: PermissionNode[]
+
+  - name: AdminSuperPermissionNode
+    url: /admin/super/permissionNode
+    comment: 查看权限项
+    tags:
+      - 系统管理
+    auth_required: true
+    method: get
+    parameters:
+      id:
+        type: string
+        required: true
+    response:
+      properties:
+        data:
+          type: PermissionNode
+
+  - name: AdminSuperPermissionNodeAdd
+    url: /admin/super/permissionNode
+    comment: 新建权限项
+    tags:
+      - 系统管理
+    auth_required: true
+    method: post
+    parameters:
+      node:
+        type: any
+        required: true
+        comment: PermissionNode数据
+    response:
+      properties:
+        data:
+          type: PermissionNode
+
+  - name: AdminSuperPermissionNodeDel
+    url: /admin/super/permissionNode
+    comment: 删除权限项
+    tags:
+      - 系统管理
+    auth_required: true
+    method: delete
+    parameters:
+      id:
+        in: body
+        type: string
+        required: true
+    response:
+      properties:
+        success:
+          type: boolean
+        info:
+          type: string
+
+  - name: AdminSuperPermissionNodeEdit
+    url: /admin/super/permissionNode
+    comment: 编辑权限项
+    tags:
+      - 系统管理
+    auth_required: true
+    method: put
+    parameters:
+      id:
+        type: string
+        required: true
+      node:
+        type: any
+        required: true
+    response:
+      properties:
+        data:
+          type: PermissionNode
+
+  - name: AdminHasPermission
+    url: /admin/permission
+    comment: 是否有权限项权限
+    tags:
+      - 系统管理
+    auth_required: true
+    method: get
+    parameters:
+      permission:
+        type: string
+        required: true
+        comment: 权限项id
+    response:
+      properties:
+        data:
+          properties:
+            allow:
+              type: boolean
+
+  - name: AdminSuperInceptUser
+    url: /admin/super/incept_user
+    comment: 变身用户
+    tags:
+      - 系统管理
+    auth_required: true
+    method: post
+    parameters:
+      token:
+        in: body
+        type: string
+        required: true
+      userId:
+        in: body
+        type: number
+        required: true
+    response:
+      properties:
+        success:
+          type: boolean
+        info:
+          type: string
+
+  - name: AdminSuperInceptUserCancel
+    url: /admin/super/incept_user
+    comment: 取消变身用户
+    tags:
+      - 系统管理
+    auth_required: true
+    method: delete
+    parameters:
+      token:
+        in: body
+        type: string
+        required: true
+    response:
+      properties:
+        success:
+          type: boolean
+        info:
+          type: string
+
+  - name: AdminLogSearch
+    url: /admin/super/log/search
+    comment: adminLog查询
+    tags:
+      - 系统管理
+    auth_required: true
+    method: get
+    parameters:
+      type:
+        type: string
+      subType:
+        type: string
+      opType:
+        type: string
+      targetId:
+        type: string
+      admin_user:
+        type: string
+      page:
+        type: number
+        required: true
+      limit:
+        type: number
+    response:
+      properties:
+        total:
+          type: number
+        logs:
+          type: AdminLog[]
+
+types:
+  AdminUser:
+    properties:
+      username:
+        type: string
+      nickname:
+        type: string
+      roles:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+  AdminRole:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      rules:
+        properties:
+          allow:
+            type: string[]
+          deny:
+            type: string[]
+        comment: 废弃，使用权限项配置
+      allow:
+        type: string[]
+        comment: 允许的权限项
+      deny:
+        type: string[]
+        comment: 禁止的权限项
+
+  AdminLog:
+    properties:
+      _id:
+        type: string
+      type:
+        type: string
+      subType:
+        type: string
+      opType:
+        type: string
+      targetId:
+        type: string
+      desc:
+        type: string
+      detail:
+        type: object
+      admin_user:
+        type: string
+      time:
+        type: string
+
+  PermissionNode:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      rules:
+        type: string[]
+        comment: '正则表达式列表: `<method>:<url path>`'

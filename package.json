@@ -1,0 +1,85 @@
+{
+  "name": "study-gaiajs-admin",
+  "version": "1.0.1",
+  "description": "A admin study project from gaiajs",
+  "egg": {
+    "framework": "@gaiajs/gaiajs",
+    "typescript": true,
+    "declarations": true
+  },
+  "eggPlugin": {
+    "name": "study-gaiajs-admin",
+    "dependencies": [
+      "mongoose",
+      "nunjucks"
+    ],
+    "gaia-plugin": true
+  },
+  "keywords": [
+    "gaiajs"
+  ],
+  "dependencies": {
+    "@gaiajs/gaiajs": "^1.0.9",
+    "@gaiajs/protocol_builder": "^1.0.0",
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg": "^2.6.1",
+    "egg-cors": "^2.2.3",
+    "egg-mongoose": "^3.2.0",
+    "egg-redis": "^2.4.0",
+    "egg-scripts": "^2.6.0",
+    "egg-validate": "^2.0.2",
+    "egg-view-nunjucks": "^2.2.0",
+    "heapdump": "^0.3.15",
+    "ioredis": "^4.16.2",
+    "lodash": "^4.17.15",
+    "passport": "^0.4.1"
+  },
+  "devDependencies": {
+    "@types/heapdump": "^0.3.1",
+    "@types/mocha": "^2.2.40",
+    "@types/node": "^14.0.11",
+    "@types/supertest": "^2.0.0",
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg-bin": "^4.11.0",
+    "egg-ci": "^1.8.0",
+    "egg-mock": "^3.16.0",
+    "eslint": "^6.7.2",
+    "eslint-config-egg": "^8.0.0",
+    "tslib": "^1.13.0",
+    "typescript": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "tsc": "ets && tsc -p tsconfig.json",
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint . --ext .ts",
+    "clean": "ets clean",
+    "build": "npm run tsc",
+    "ci": "npm run lint && npm run cov && npm run tsc",
+    "autod": "autod",
+    "pub": "rm -rf dist/ && npm run build && npm version patch && cp -Rf typings package.json index.* tshelper.js config ./dist/ && cp -rf app/msggen app/view app/public dist/app/ && npm publish dist/",
+    "gencode": "node ./node_modules/@gaiajs/protocol_builder/dist/gencode -l openapi gaiajs -i ./app/msggen/admin.gapi.yaml -t gapi -o ./app/net/"
+  },
+  "ci": {
+    "version": "10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eggjs/egg-study-gaiajs-admin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eggjs/egg/issues"
+  },
+  "homepage": "https://github.com/eggjs/egg-study-gaiajs-admin#readme",
+  "eslintIgnore": [
+    "coverage"
+  ],
+  "author": "Doubler1125",
+  "license": "MIT"
+}

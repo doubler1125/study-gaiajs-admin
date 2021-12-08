@@ -1,0 +1,138 @@
+{% extends "admin/frame.html" %}
+{% block content %}
+{% raw %}
+
+<div id = "main_content">
+  <div class = "container" style = "margin-top: 4px; width: 100%; height: calc(100vh - 79px); overflow-x: scroll">
+    <template>
+      <h4>查询条件</h4>
+      <el-form :inline="true" :model="formSearch" class="demo-form-inline">
+        <el-form-item label="类型">
+          <el-input v-model="formSearch.type" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="子类型">
+          <el-input v-model="formSearch.subType" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="操作类型">
+          <el-input v-model="formSearch.opType" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="操作对象">
+          <el-input v-model="formSearch.targetId" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="管理员ID">
+          <el-input v-model="formSearch.admin_user" size="small"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button size="small" type="primary" @click="onSubmitSearch">搜索</el-button>
+        </el-form-item>
+      </el-form>
+    </template>
+
+    <div class="layout__lower">
+      <h4>查询结果</h4>
+      <el-pagination
+        :total="total" 
+        @current-change="onPageChange" 
+        layout="prev, pager, next"
+        style="margin-bottom: 10px; margin-left: -10px"
+        background
+      >
+      </el-pagination>
+
+      <el-table
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.5)"
+        :data="tableData"
+        style="width: 100%"
+        size="small"
+        border
+        stripe
+      >
+        <el-table-column type="index"></el-table-column>
+        <el-table-column prop="_id" label="_id"></el-table-column>
+        <el-table-column prop="time" :formatter="dateFormatter" label="时间"></el-table-column>
+        <el-table-column prop="type" label="类型"></el-table-column>
+        <el-table-column prop="subType" label="子类型"></el-table-column>
+        <el-table-column prop="opType" label="操作类型"></el-table-column>
+        <el-table-column prop="targetId" label="操作对象"></el-table-column>
+        <el-table-column prop="admin_user" label="管理员"></el-table-column>
+        <el-table-column prop="desc" label="概述"></el-table-column>
+        <el-table-column prop="detail" label="详情">
+          <template slot-scope="scope">
+            {{ scope.row.detail && Object.values(scope.row.detail) }}
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: "#main_content",
+    data: {
+      loading: false,
+      tableData: [],
+      formSearch: {
+        type: '',
+        subType: '',
+        opType: '',
+        targetId: '',
+        admin_user: '',
+      },
+      total: 0,
+      page: 1,
+    },
+    created() {
+      this.fetchTableData();
+    },
+    methods: {
+      async onSubmitSearch() {
+        await this.fetchTableData();
+      },
+
+      async fetchTableData() {
+        try{
+          this.loading = true;
+          const { type, subType, opType, targetId, admin_user } = this.formSearch;
+          const response = await axios.get(`/admin/super/log/search?page=${this.page}&type=${type}&subType=${subType}&opType=${opType}&targetId=${targetId}&admin_user=${admin_user}`);
+          const result = response.data;
+          if (result && result.logs) {
+            this.tableData = result.logs;
+            this.total = result.total;
+          } else {
+            this.tips(result, 'red');
+          }
+
+        } catch (error) {
+          this.tips(error, 'red');
+        }
+        this.loading = false;
+      },
+      onPageChange(page) {
+        this.page = page;
+        this.fetchTableData();
+      },
+      tips(msg, color = 'green') {
+          const h = this.$createElement;
+          this.$message({
+            message: h('p', null, [
+              h('span', { style: 'color: ' + color }, msg),
+            ]),
+          });
+      },
+      dateFormatter(row, column) {
+        const date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return (new Date(date)).toLocaleString();
+      }
+    }
+  });
+</script>
+
+{% endraw %}
+{% endblock %}

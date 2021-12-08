@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <title>{$ ctx.locals.data.admin_title $}</title>
+
+    <link rel="stylesheet" href="/public/css/admin/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/admin/frame.css">
+    <script src="/public/js/admin/seed.min.js"></script>
+    <script src="/public/js/admin/vue.js"></script>
+    <script src="/public/js/admin/axios.min.js"></script>
+    <script src="/public/js/admin/lodash.js"></script>
+    <script src="/public/js/admin/bootstrap.min.js"></script>
+    <link href="/public/css/admin/elementUI.css" rel="stylesheet">
+    <script src="/public/js/admin/elementUI.js"></script>
+    <script>
+        data = {$ ctx.locals.data | dump | safe $};
+    </script>
+</head>
+<body>
+
+    <!-- 顶部 -->
+    <h1 id="frame-title"><a href="/admin/">{$ ctx.locals.data.admin_title $}</a></h1>
+    <div id="frame-container">
+        <!-- 左侧菜单 -->
+        <div id="frame-left">
+            {% for module in adminModule %}
+                <h3>{$ module['name'] $}</h3>
+                <ul>
+                    {% for item in module['list'] %}
+                        <li class="firstLevelLi"><a href="{$ item['url'] $}">{$ item['name'] $}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        <!-- 内容 -->
+        <div id="frame-right">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="cf-both"></div>
+    </div>
+    {# <div id="frame-footer">think less, do more</div> #}
+</body>
+</html>

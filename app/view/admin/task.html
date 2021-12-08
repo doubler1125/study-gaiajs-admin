@@ -1,0 +1,170 @@
+{% extends "./frame.html" %}
+{% block content %}
+{% raw %}
+<style>
+</style>
+
+<div id="main_content">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>任务列表task</h2>
+        <el-button type="primary" size='mini' icon="el-icon-plus" v-on:click.prevent="newSimulationTask()" >创建模拟任务</el-button>
+        <el-button type="danger" size='mini' icon="el-icon-delete" v-on:click.prevent="removeFinishedTasks()" >删除已完成的任务记录</el-button>
+      </div>
+      <div v-if='tasks.length === 0' class="col-md-12">
+        <h3>>没有任务</h3>
+      </div>
+      <div v-if="tasks.length > 0" class="col-md-12">
+        <el-table :data="tasks">
+          <el-table-column type="index" label="序号" > </el-table-column>
+          <el-table-column label="任务名称" >
+            <template slot-scope="props">
+              {{ props.row.name }} ({{ props.row.id }})
+              <el-button type="danger" size='mini' icon="el-icon-video-pause" v-on:click.prevent="stopTask(props.row)"  v-if="props.row.status === 10">停止</el-button>
+              <el-button type="danger" size='mini' icon="el-icon-delete" v-on:click.prevent="clearTask(props.row)"  v-if="props.row.status >= 20">清除</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="服务器" prop="hostname">
+          </el-table-column>
+          <el-table-column label="Pid" prop="pid">
+          </el-table-column>
+          <el-table-column label="开始时间" prop="start">
+          </el-table-column>
+          <el-table-column label="进度" >
+            <template slot-scope="props">
+              <el-progress :show-text="false" :percentage="props.row.progress && Number(props.row.progress.progress.substr(0, props.row.progress.progress.length-1)) || 0"></el-progress>
+              <span>{{props.row.statusDescription}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="预计完成时间" >
+            <template slot-scope="props">
+              {{ props.row.progress && props.row.progress.estimatedFinishTime || '-' }} ({{ props.row.progress && props.row.progress.speed || '-' }} 个/秒)
+            </template>
+          </el-table-column>
+          <el-table-column label="最后更新时间" prop="last">
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+  new Vue({
+    el: '#main_content',
+    data: {
+      tasks: [],
+    },
+    created: function () {
+      this.loadData();
+
+      let failureCount = 0;
+      const timer = setInterval(async () => {
+        if (!await this.loadData()) {
+          failureCount++;
+          if (failureCount > 10) {
+            clearInterval(timer);
+            this.$message({ type: 'alert', message: '失败过多，停止自动刷新状态' });
+          }
+        } else {
+          failureCount=0;
+        }
+      }, 2000);
+    },
+
+    methods: {
+      async loadData() {
+        try {
+          const response = await axios.get('status');
+          const result = response.data;
+          if (result && result.tasks) {
+            this.tasks = result.tasks;
+            return true;
+          } else {
+            console.error('请求任务列表失败：'+(result && (result.info || result.msg)));
+            return false;
+          }
+        } catch (error) {
+          console.error('请求任务列表失败：' + error.message);
+          return false;
+        }
+      },
+
+      async removeFinishedTasks() {
+        try {
+          const response = await axios.post('remove_finish');
+          const result = response.data;
+          if (result && result.success) {
+            if (result.tasks) {
+              this.tasks = result.tasks;
+            } else {
+              await this.loadData();
+            }
+          } else {
+            console.error('清除已完成任务失败：'+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          console.error('清除已完成任务失败：' + error.message);
+        }
+      },
+
+      async stopTask(task) {
+        try {
+          const response = await axios.post('stop', { hostname: task.hostname, pid: task.pid, id: task.id });
+          const result = response.data;
+          if (result && result.success) {
+            if (result.tasks) {
+              this.tasks = result.tasks;
+            } else {
+              await this.loadData();
+            }
+          } else {
+            console.error('清除已完成任务失败：'+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          console.error('清除已完成任务失败：' + error.message);
+        }
+      },
+
+      async clearTask(task) {
+        try {
+          const response = await axios.post('clear', { hostname: task.hostname, pid: task.pid, id: task.id });
+          const result = response.data;
+          if (result && result.success) {
+            if (result.tasks) {
+              this.tasks = result.tasks;
+            } else {
+              await this.loadData();
+            }
+          } else {
+            console.error('清除任务失败：'+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          console.error('清除任务失败：' + error.message);
+        }
+      },
+
+      async newSimulationTask() {
+        try {
+          const response = await axios.post('simulate');
+          const result = response.data;
+          if (result && result.success) {
+            console.log('模拟任务已创建');
+
+            await this.loadData();
+          } else {
+            console.error('清除已完成任务失败：'+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          console.error('清除已完成任务失败：' + error.message);
+        }
+      },
+    },
+  })
+
+</script>
+
+{% endraw %}
+{% endblock %}

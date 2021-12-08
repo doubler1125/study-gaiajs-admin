@@ -1,0 +1,838 @@
+openapi: 3.0.0
+info:
+  title: ''
+  description: ''
+  version: ''
+components:
+  securitySchemes:
+    SessionKeyAuth:
+      type: apiKey
+      in: query
+      name: session_key
+    cookieVoxauth:
+      type: apiKey
+      in: cookie
+      name: voxauth
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: va_sess
+  schemas:
+    AdminUser:
+      type: object
+      format: object
+      description: ''
+      properties:
+        username:
+          type: string
+          description: ''
+        nickname:
+          type: string
+          description: ''
+        roles:
+          type: array
+          description: ''
+          items:
+            type: object
+            format: object
+            description: ''
+            properties:
+              id:
+                type: string
+                description: ''
+              name:
+                type: string
+                description: ''
+    AdminRole:
+      type: object
+      format: object
+      description: ''
+      properties:
+        id:
+          type: string
+          description: ''
+        name:
+          type: string
+          description: ''
+        rules:
+          type: object
+          format: object
+          description: 废弃，使用权限项配置
+          properties:
+            allow:
+              type: array
+              items:
+                type: string
+              description: ''
+            deny:
+              type: array
+              items:
+                type: string
+              description: ''
+        allow:
+          type: array
+          items:
+            type: string
+          description: 允许的权限项
+        deny:
+          type: array
+          items:
+            type: string
+          description: 禁止的权限项
+    AdminLog:
+      type: object
+      format: object
+      description: ''
+      properties:
+        _id:
+          type: string
+          description: ''
+        type:
+          type: string
+          description: ''
+        subType:
+          type: string
+          description: ''
+        opType:
+          type: string
+          description: ''
+        targetId:
+          type: string
+          description: ''
+        desc:
+          type: string
+          description: ''
+        detail:
+          type: object
+          format: object
+          description: ''
+        admin_user:
+          type: string
+          description: ''
+        time:
+          type: string
+          description: ''
+    PermissionNode:
+      type: object
+      format: object
+      description: ''
+      properties:
+        id:
+          type: string
+          description: ''
+        name:
+          type: string
+          description: ''
+        rules:
+          type: array
+          items:
+            type: string
+          description: '正则表达式列表: `<method>:<url path>`'
+security:
+  - SessionKeyAuth: []
+  - cookieVoxauth: []
+  - cookieAuth: []
+servers: []
+paths:
+  /admin/super/admin_users:
+    get:
+      x-codegen-request-body-name: AdminSuperUsersList
+      tags:
+        - 系统管理
+      operationId: AdminSuperUsersList
+      description: 查看管理员
+      x-codegen-auth_required: true
+      parameters:
+        - in: query
+          name: skip
+          schema:
+            type: integer
+            required: false
+          required: false
+          description: ''
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            required: false
+          required: false
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    type: object
+                    format: object
+                    description: ''
+                    properties:
+                      count:
+                        type: integer
+                        description: ''
+                      users:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AdminUser'
+                        description: ''
+          description: ''
+  /admin/super/admin_user:
+    post:
+      x-codegen-request-body-name: AdminSuperUserAdd
+      tags:
+        - 系统管理
+      operationId: AdminSuperUserAdd
+      description: 创建管理员
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: username
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+        - in: body
+          name: roles
+          schema:
+            type: array
+            items:
+              type: string
+            required: false
+          required: false
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AdminUser'
+                    description: ''
+          description: ''
+    delete:
+      x-codegen-request-body-name: AdminSuperUserDel
+      tags:
+        - 系统管理
+      operationId: AdminSuperUserDel
+      description: 删除管理员
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: username
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  success:
+                    type: boolean
+                    description: ''
+                  info:
+                    type: string
+                    description: ''
+          description: ''
+  /admin/super/admin_user/role:
+    post:
+      x-codegen-request-body-name: AdminSuperUserRoleAdd
+      tags:
+        - 系统管理
+      operationId: AdminSuperUserRoleAdd
+      description: 管理员添加角色
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: username
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+        - in: body
+          name: role
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AdminUser'
+                    description: ''
+          description: ''
+    delete:
+      x-codegen-request-body-name: AdminSuperUserRoleDel
+      tags:
+        - 系统管理
+      operationId: AdminSuperUserRoleDel
+      description: 管理员删除角色
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: username
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+        - in: body
+          name: role
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AdminUser'
+                    description: ''
+          description: ''
+  /admin/super/roles:
+    get:
+      x-codegen-request-body-name: AdminSuperRoleList
+      tags:
+        - 系统管理
+      operationId: AdminSuperRoleList
+      description: 查看角色列表
+      x-codegen-auth_required: true
+      parameters:
+        - in: query
+          name: skip
+          schema:
+            type: integer
+            required: false
+          required: false
+          description: ''
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            required: false
+          required: false
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    type: object
+                    format: object
+                    description: ''
+                    properties:
+                      count:
+                        type: integer
+                        description: ''
+                      roles:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AdminRole'
+                        description: ''
+          description: ''
+  /admin/super/role:
+    get:
+      x-codegen-request-body-name: AdminSuperRole
+      tags:
+        - 系统管理
+      operationId: AdminSuperRole
+      description: 查看角色
+      x-codegen-auth_required: true
+      parameters:
+        - in: query
+          name: role
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AdminRole'
+                    description: ''
+          description: ''
+    post:
+      x-codegen-request-body-name: AdminSuperRoleAdd
+      tags:
+        - 系统管理
+      operationId: AdminSuperRoleAdd
+      description: 新建角色
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: role
+          schema:
+            type: object
+            format: any
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AdminRole'
+                    description: ''
+          description: ''
+    delete:
+      x-codegen-request-body-name: AdminSuperRoleDel
+      tags:
+        - 系统管理
+      operationId: AdminSuperRoleDel
+      description: 删除角色
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: role
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  success:
+                    type: boolean
+                    description: ''
+                  info:
+                    type: string
+                    description: ''
+          description: ''
+    put:
+      x-codegen-request-body-name: AdminSuperRoleEdit
+      tags:
+        - 系统管理
+      operationId: AdminSuperRoleEdit
+      description: 编辑角色
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: name
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+        - in: body
+          name: role
+          schema:
+            type: object
+            format: any
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AdminRole'
+                    description: ''
+          description: ''
+  /admin/super/permissionNodes:
+    get:
+      x-codegen-request-body-name: AdminSuperPermissionNodesList
+      tags:
+        - 系统管理
+      operationId: AdminSuperPermissionNodesList
+      description: 查看权限项列表
+      x-codegen-auth_required: true
+      parameters:
+        - in: query
+          name: skip
+          schema:
+            type: integer
+            required: false
+          required: false
+          description: ''
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            required: false
+          required: false
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    type: object
+                    format: object
+                    description: ''
+                    properties:
+                      count:
+                        type: integer
+                        description: ''
+                      nodes:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/PermissionNode'
+                        description: ''
+          description: ''
+  /admin/super/permissionNode:
+    get:
+      x-codegen-request-body-name: AdminSuperPermissionNode
+      tags:
+        - 系统管理
+      operationId: AdminSuperPermissionNode
+      description: 查看权限项
+      x-codegen-auth_required: true
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/PermissionNode'
+                    description: ''
+          description: ''
+    post:
+      x-codegen-request-body-name: AdminSuperPermissionNodeAdd
+      tags:
+        - 系统管理
+      operationId: AdminSuperPermissionNodeAdd
+      description: 新建权限项
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: node
+          schema:
+            type: object
+            format: any
+            required: true
+          required: true
+          description: PermissionNode数据
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/PermissionNode'
+                    description: ''
+          description: ''
+    delete:
+      x-codegen-request-body-name: AdminSuperPermissionNodeDel
+      tags:
+        - 系统管理
+      operationId: AdminSuperPermissionNodeDel
+      description: 删除权限项
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: id
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  success:
+                    type: boolean
+                    description: ''
+                  info:
+                    type: string
+                    description: ''
+          description: ''
+    put:
+      x-codegen-request-body-name: AdminSuperPermissionNodeEdit
+      tags:
+        - 系统管理
+      operationId: AdminSuperPermissionNodeEdit
+      description: 编辑权限项
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: id
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+        - in: body
+          name: node
+          schema:
+            type: object
+            format: any
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    $ref: '#/components/schemas/PermissionNode'
+                    description: ''
+          description: ''
+  /admin/permission:
+    get:
+      x-codegen-request-body-name: AdminHasPermission
+      tags:
+        - 系统管理
+      operationId: AdminHasPermission
+      description: 是否有权限项权限
+      x-codegen-auth_required: true
+      parameters:
+        - in: query
+          name: permission
+          schema:
+            type: string
+            required: true
+          required: true
+          description: 权限项id
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  data:
+                    type: object
+                    format: object
+                    description: ''
+                    properties:
+                      allow:
+                        type: boolean
+                        description: ''
+          description: ''
+  /admin/super/incept_user:
+    post:
+      x-codegen-request-body-name: AdminSuperInceptUser
+      tags:
+        - 系统管理
+      operationId: AdminSuperInceptUser
+      description: 变身用户
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: token
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+        - in: body
+          name: userId
+          schema:
+            type: number
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  success:
+                    type: boolean
+                    description: ''
+                  info:
+                    type: string
+                    description: ''
+          description: ''
+    delete:
+      x-codegen-request-body-name: AdminSuperInceptUserCancel
+      tags:
+        - 系统管理
+      operationId: AdminSuperInceptUserCancel
+      description: 取消变身用户
+      x-codegen-auth_required: true
+      parameters:
+        - in: body
+          name: token
+          schema:
+            type: string
+            required: true
+          required: true
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  success:
+                    type: boolean
+                    description: ''
+                  info:
+                    type: string
+                    description: ''
+          description: ''
+  /admin/super/log/search:
+    get:
+      x-codegen-request-body-name: AdminLogSearch
+      tags:
+        - 系统管理
+      operationId: AdminLogSearch
+      description: adminLog查询
+      x-codegen-auth_required: true
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: false
+          description: ''
+        - in: query
+          name: subType
+          schema:
+            type: string
+          required: false
+          description: ''
+        - in: query
+          name: opType
+          schema:
+            type: string
+          required: false
+          description: ''
+        - in: query
+          name: targetId
+          schema:
+            type: string
+          required: false
+          description: ''
+        - in: query
+          name: admin_user
+          schema:
+            type: string
+          required: false
+          description: ''
+        - in: query
+          name: page
+          schema:
+            type: number
+            required: true
+          required: true
+          description: ''
+        - in: query
+          name: limit
+          schema:
+            type: number
+          required: false
+          description: ''
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                format: object
+                description: ''
+                properties:
+                  total:
+                    type: number
+                    description: ''
+                  logs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminLog'
+                    description: ''
+          description: ''

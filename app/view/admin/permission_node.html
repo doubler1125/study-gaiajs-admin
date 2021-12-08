@@ -1,0 +1,159 @@
+{% extends "./frame.html" %}
+{% block content %}
+{% raw %}
+<style>
+.rule {
+  margin: 0px; width: 440px; height: 100px;
+}
+</style>
+
+<div id="main_content">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>权限管理</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h3>列表</h3>
+      </div>
+      
+      <div class="col-md-12">
+        <el-table :data="permissionNodes">
+          <el-table-column label="ID" >
+            <template slot-scope="props">
+              {{ props.row.id }}
+            </template>
+          </el-table-column>
+          <el-table-column label="角色" >
+            <template slot-scope="props">
+              {{ props.row.name }} <el-button type="danger" size='mini' icon="el-icon-delete" circle v-on:click.prevent="delNode(props.row)"></el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="允许规则" >
+            <span class='bg-warning'>(正则表达式，每行一条)</span>
+            <template slot-scope="props">
+                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 8}" v-model="props.row.rulesValue"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" >
+            <template slot-scope="props">
+                <el-button type="primary" size='mini' icon="el-icon-check" circle v-on:click.prevent="editNode(props.row)">提交</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h3>添加</h3>
+      </div>
+      <div class="col-md-12">
+        <el-form :model="newNode" >
+          <el-form-item label="ID" prop="id">
+              <el-input v-model="newNode.id" auto-complete="off" ></el-input>
+          </el-form-item>
+          <el-form-item label="名称" prop="name">
+              <el-input v-model="newNode.name" auto-complete="off" ></el-input>
+          </el-form-item>
+          <el-form-item label="允许规则" >
+            <span class='bg-warning'>(正则表达式，每行一条)</span>
+                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 8}" v-model="newNode.rulesValue"></el-input>
+          </el-form-item>
+          <el-form-item label="操作">
+            <el-button type="primary" size='mini' v-on:click.prevent="addNode(newNode)" >添加</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+  new Vue({
+    el: '#main_content',
+    data: {
+      permissionNodes: [],
+
+      newNode: { id: '', rulesValue: '' },
+    },
+    created: function () {
+      this.loadData();
+    },
+    methods: {
+      async loadData() {
+        try {
+          const response = await axios.get('permissionNodes');
+          const result = response.data;
+          console.log(result);
+          if (result && result.data) {
+            this.permissionNodes = result.data.nodes.map((node)=>{
+              node.rulesValue = node.rules.join('\n')+(node.rules && node.rules.length>0?'\n':'');
+              return node;
+            });
+          } else {
+            alert('请求权限项列表失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('请求权限项列表失败: ' + error.message);
+        }
+      },
+
+      async editNode(node) {
+        try {
+          const data = { name: node.name, rules: node.rulesValue && node.rulesValue.split('\n') || [] };
+          const response = await axios.put('permissionNode', { id: node.id, node: data });
+          const result = response.data;
+          if (result && result.data) {
+            await this.loadData();
+          } else {
+            alert('修改权限项失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('修改权限项失败' + error.message);
+        }
+      },
+
+      async delNode(node) {
+        try {
+          if (node.id === 'super') {
+            alert('禁止删除');
+            return;
+          }
+          const response = await axios.delete('permissionNode', { data: { id: node.id } });
+          const result = response.data;
+          if (result && result.success) {
+            await this.loadData();
+          } else {
+            alert('删除权限项失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('删除权限项失败' + error.message);
+        }
+      },
+
+      async addNode(node) {
+        try {
+          const data = { _id: node.id, name: node.id, rules: node.rulesValue.split('\n') };
+          const response = await axios.post('permissionNode', { node: data });
+          const result = response.data;
+          if (result && result.data) {
+            await this.loadData();
+          } else {
+            alert('添加权限项失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('添加权限项失败' + error.message);
+        }
+      }
+    }
+  })
+
+</script>
+
+{% endraw %}
+{% endblock %}

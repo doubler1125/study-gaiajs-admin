@@ -1,0 +1,177 @@
+{% extends "./frame.html" %}
+{% block content %}
+{% raw %}
+<style>
+</style>
+
+<div id="main_content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>用户管理</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <el-form :model="newUser"  :inline="true">
+          <el-form-item label="用户名" prop="username">
+              <el-input v-model="newUser.username" auto-complete="off" ></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+              <el-input v-model="newUser.password" auto-complete="off" ></el-input>
+          </el-form-item>
+          <el-form-item label="昵称" prop="nickname">
+              <el-input v-model="newUser.nickname" auto-complete="off" ></el-input>
+          </el-form-item>
+          <el-form-item label="角色" prop="roles">
+            <el-checkbox-group v-model="newUser.roles">
+              <el-checkbox v-for="role in roles" :label="role.id"  :value="role.id" :key="role.id">{{ role.name }}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="操作">
+            <el-button type="primary" size='mini' v-on:click.prevent="addUser(newUser)" >添加或修改</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <el-table :data="users">
+          <el-table-column type="index" label="序号" > </el-table-column>
+          <el-table-column label="昵称" >
+            <template slot-scope="props">
+              {{ props.row.nickname || props.row.username }} ({{ props.row.username }})  <el-button type="danger" size='mini' icon="el-icon-delete" circle v-on:click.prevent="delUser(props.row)"></el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="角色" >
+            <template slot-scope="props">
+              <span v-for="role in props.row.roles">
+                {{ role.name }}  <el-button type="danger" size='mini' icon="el-icon-delete" circle v-on:click.prevent="userDelRole(props.row, role.id)"></el-button><br>
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="添加角色" >
+            <template slot-scope="props">
+              <el-select v-model="props.row.newRole" placeholder="请选择">
+                <option disabled value="">请选择一个角色</option>
+                <el-option
+                  v-for="item in roles"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+              <el-button type="primary" size="mini" icon="el-icon-circle-plus-outline" v-on:click.prevent="userAddRole(props.row)"></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="application/javascript">
+  new Vue({
+    el: '#main_content',
+    data: {
+      users: [],
+      roles: [],
+
+      newUser: { username: '', nickname: '', password: '', roles: [] },
+    },
+    created: function () {
+      this.loadData();
+    },
+    methods: {
+      async loadData() {
+        try {
+          const response = await axios.get('admin_users');
+          const result = response.data;
+          if (result && result.data) {
+            this.users = result.data.users;
+          } else {
+            alert('请求管理员列表失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('请求管理员列表失败' + error.message);
+        }
+
+        try {
+          const response = await axios.get('roles');
+          const result = response.data;
+          if (result && result.data) {
+            this.roles = result.data.roles;
+          } else {
+            alert('请求角色列表失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('请求角色列表失败' + error.message);
+        }
+      },
+
+      async userAddRole(user) {
+        try {
+          const response = await axios.post('admin_user/role', { username: user.username, role: user.newRole });
+          const result = response.data;
+          if (result && result.data) {
+            await this.loadData();
+          } else {
+            alert('添加角色失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('添加角色失败' + error.message);
+        }
+      },
+
+      async userDelRole(user, role) {
+        try {
+          const response = await axios.delete('admin_user/role', { data: { username: user.username, role } });
+          const result = response.data;
+          if (result && result.data) {
+            // this.users = result.data;
+
+            await this.loadData();
+          } else {
+            alert('删除角色失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('删除角色失败' + error.message);
+        }
+      },
+
+      async addUser(user) {
+        try {
+          const response = await axios.post('admin_user', user);
+          const result = response.data;
+          if (result && result.data) {
+            await this.loadData();
+          } else {
+            alert('添加用户失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('添加用户失败' + error.message);
+        }
+      },
+
+      async delUser(user) {
+        try {
+          const response = await axios.delete('admin_user', { data: { username: user.username } });
+          const result = response.data;
+          if (result && result.success) {
+            await this.loadData();
+          } else {
+            alert('删除用户失败: '+(result && (result.info || result.msg)));
+          }
+        } catch (error) {
+          alert('删除用户失败' + error.message);
+        }
+      }
+    },
+  })
+
+</script>
+
+{% endraw %}
+{% endblock %}
