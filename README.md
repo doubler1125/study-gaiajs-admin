@@ -1,4 +1,4 @@
-# egg-study-gaiajs-admin
+# study-gaiajs-admin
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
