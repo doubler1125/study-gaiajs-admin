@@ -63,7 +63,7 @@
     "build": "npm run tsc",
     "ci": "npm run lint && npm run cov && npm run tsc",
     "autod": "autod",
-    "pub": "rm -rf dist/ && npm run build && npm version patch && cp -Rf typings package.json index.* tshelper.js config ./dist/ && cp -rf app/msggen app/view app/public dist/app/ && npm publish dist/",
+    "pub": "rm -rf dist/ && npm run build && npm version patch && cp -Rf README.md typings package.json index.* tshelper.js config ./dist/ && cp -rf app/msggen app/view app/public dist/app/ && npm publish dist/",
     "gencode": "node ./node_modules/@gaiajs/protocol_builder/dist/gencode -l openapi gaiajs -i ./app/msggen/admin.gapi.yaml -t gapi -o ./app/net/"
   },
   "ci": {
