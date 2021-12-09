@@ -28,10 +28,6 @@ export function passportStrategy() {
 export default class DefaultService extends BaseAuthService {
 
   async startAuth() {
-    if (this.ctx.URL.pathname === '/admin') {
-      this.ctx.URL.pathname = '/admin/';
-    }
-
     this.ctx.redirect('/admin/login');
     return true;
   }
@@ -81,7 +77,7 @@ export default class DefaultService extends BaseAuthService {
     }
 
     const token = await ctx.service.auth.issueToken(username);
-    ctx.setCookie('admin_default_token', token, { domain: this.ctx.hostname, path: '/admin/' });
+    ctx.setCookie('admin_default_token', token, { domain: this.ctx.hostname, path: '/admin' });
 
     if (ctx.query.success && ctx.query.success.length > 0) {
       const url = urllib.parse(ctx.query.success, true);
