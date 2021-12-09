@@ -32,12 +32,12 @@ $ npm i study-gaiajs-admin --save
 
 ## Usage
 
-```js
-// {app_root}/config/plugin.js
-exports.studyGaiajsAdmin = {
+```ts
+// {app_root}/config/plugin.ts
+'study-gaiajs-admin': {
   enable: true,
   package: 'study-gaiajs-admin',
-};
+}
 ```
 
 ## Configuration
@@ -48,7 +48,7 @@ exports.studyGaiajsAdmin = {
 };
 ```
 
-see [config/config.default.js](config/config.default.js) for more detail.
+see [config/config.default.ts](config/config.default.ts) for more detail.
 
 ## Example
 
