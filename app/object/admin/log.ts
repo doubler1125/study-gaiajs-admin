@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-import BaseBSONDocObject from '@gaiajs/gaiajs/app/object/BaseBSONDocObject';
+import BaseBSONDocObject from 'study-gaiajs/app/object/BaseBSONDocObject';
 
 export default class Log extends BaseBSONDocObject<ObjectId> {
   type: string;

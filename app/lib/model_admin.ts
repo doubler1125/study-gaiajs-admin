@@ -1,6 +1,6 @@
-import DBModelService from '@gaiajs/gaiajs/app/lib/model/DBModelService';
-import { deepFindObject } from '@gaiajs/gaiajs/app/lib/obj_util';
-import BaseModelObject, { KeyType } from '@gaiajs/gaiajs/app/object/BaseModelObject';
+import DBModelService from 'study-gaiajs/app/lib/model/DBModelService';
+import { deepFindObject } from 'study-gaiajs/app/lib/obj_util';
+import BaseModelObject, { KeyType } from 'study-gaiajs/app/object/BaseModelObject';
 import { Application, Context } from 'egg';
 import bp, { AdminBaseController } from './router/admin';
 

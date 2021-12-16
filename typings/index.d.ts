@@ -1,6 +1,6 @@
-import '@gaiajs/gaiajs';
+import 'study-gaiajs';
 import { IAppServiceAdmin, IGaiaObjectAdmin } from './app';
-import { gaia } from '@gaiajs/gaiajs';
+import { gaia } from 'study-gaiajs';
 import 'egg';
 
 declare module 'egg' {

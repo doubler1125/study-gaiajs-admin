@@ -1,4 +1,4 @@
-import BaseAdminUser from '@gaiajs/gaiajs/app/object/admin/user';
+import BaseAdminUser from 'study-gaiajs/app/object/admin/user';
 
 export default class AdminUser extends BaseAdminUser {
 

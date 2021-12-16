@@ -1,4 +1,4 @@
-import bp from '@gaiajs/gaiajs/app/lib/router/admin_blueprint';
+import bp from 'study-gaiajs/app/lib/router/admin_blueprint';
 import { AdminBaseController } from '../../lib/router/admin';
 
 export default class AdminController extends AdminBaseController {

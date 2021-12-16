@@ -4,7 +4,7 @@
  */
 
 import { Context } from 'egg';
-import GaiaRequest from '@gaiajs/gaiajs/app/lib/request';
+import GaiaRequest from 'study-gaiajs/app/lib/request';
 
 
 /**

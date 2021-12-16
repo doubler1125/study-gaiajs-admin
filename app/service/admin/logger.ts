@@ -1,8 +1,8 @@
 import { Context } from 'egg';
 import Log from '../../object/admin/log';
 import { ObjectId } from 'mongodb';
-import MongoModelService from '@gaiajs/gaiajs/app/lib/model/MongoModelService';
-import { ObjectProperties } from '@gaiajs/gaiajs/app/object/BasePropertiesObject';
+import MongoModelService from 'study-gaiajs/app/lib/model/MongoModelService';
+import { ObjectProperties } from 'study-gaiajs/app/object/BasePropertiesObject';
 
 export default class LoggerService extends MongoModelService<Log, ObjectId> {
   constructor(ctx: Context) {

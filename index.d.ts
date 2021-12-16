@@ -1,5 +1,5 @@
-import '@gaiajs/gaiajs';
-import { gaia } from '@gaiajs/gaiajs';
+import 'study-gaiajs';
+import { gaia } from 'study-gaiajs';
 import { IGaiaObjectAdmin, IGaiaServiceAdmin } from 'study-gaiajs-admin/typings/app';
 import 'egg';
 import './typings/app/controller/index';

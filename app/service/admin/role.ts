@@ -1,7 +1,7 @@
 import { Context } from 'egg';
-import { ObjectModelOptions } from '@gaiajs/gaiajs/app/lib/model/ObjectModelService';
+import { ObjectModelOptions } from 'study-gaiajs/app/lib/model/ObjectModelService';
 import Role from '../../object/admin/role';
-import BaseAdminRoleModelService from '@gaiajs/gaiajs/app/service/admin/role';
+import BaseAdminRoleModelService from 'study-gaiajs/app/service/admin/role';
 
 export default class AdminRoleModelService<T extends Role = Role> extends BaseAdminRoleModelService<T> {
   constructor(ctx: Context, daoName: string = 'AdminRole', options: ObjectModelOptions<T> = {}) {

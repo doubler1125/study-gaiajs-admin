@@ -1,5 +1,5 @@
-import { ValidateOptions } from '@gaiajs/gaiajs/app/lib/request';
-import BaseService from '@gaiajs/gaiajs/app/service/admin_auth';
+import { ValidateOptions } from 'study-gaiajs/app/lib/request';
+import BaseService from 'study-gaiajs/app/service/admin_auth';
 
 export default class AdminAuthService extends BaseService {
   async startAuth(bpOptions?: ValidateOptions) {

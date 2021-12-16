@@ -1,7 +1,7 @@
 import BaseAuthService from "../base_auth";
 import { AuthenticateOptions, Strategy } from 'passport';
 import { Context } from 'egg';
-import { RouterOptions } from '@gaiajs/gaiajs/app/lib/router/blueprint';
+import { RouterOptions } from 'study-gaiajs/app/lib/router/blueprint';
 import * as urllib from 'url';
 
 export function passportStrategy() {

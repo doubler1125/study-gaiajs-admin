@@ -1,7 +1,7 @@
-import bp from '@gaiajs/gaiajs/app/lib/router/admin_blueprint';
-import { deepFindObject } from '@gaiajs/gaiajs/app/lib/obj_util';
+import bp from 'study-gaiajs/app/lib/router/admin_blueprint';
+import { deepFindObject } from 'study-gaiajs/app/lib/obj_util';
 import { AdminBaseController } from '../../lib/router/admin';
-import BaseModelObject from '@gaiajs/gaiajs/app/object/BaseModelObject';
+import BaseModelObject from 'study-gaiajs/app/object/BaseModelObject';
 
 export default class AdminController extends AdminBaseController {
   @bp.post('/admin/system/flush_cache')

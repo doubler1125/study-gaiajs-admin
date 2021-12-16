@@ -1,6 +1,6 @@
 import { Context } from 'egg';
-import BaseService from '@gaiajs/gaiajs/app/lib/BaseService';
-import { capitalize } from '@gaiajs/gaiajs/app/lib/string';
+import BaseService from 'study-gaiajs/app/lib/BaseService';
+import { capitalize } from 'study-gaiajs/app/lib/string';
 
 type MenuItem = { name: string; url: string };
 type AdminModule = { name: string; list: MenuItem[] };

@@ -1,6 +1,6 @@
-import bp from '@gaiajs/gaiajs/app/lib/router/admin_blueprint';
-import GenericTask, { TaskSource } from '@gaiajs/gaiajs/app/lib/task/generic_task';
-import { sleep } from '@gaiajs/gaiajs/app/lib/utils';
+import bp from 'study-gaiajs/app/lib/router/admin_blueprint';
+import GenericTask, { TaskSource } from 'study-gaiajs/app/lib/task/generic_task';
+import { sleep } from 'study-gaiajs/app/lib/utils';
 import { Context } from 'egg';
 import { AdminBaseController } from '../../lib/router/admin';
 

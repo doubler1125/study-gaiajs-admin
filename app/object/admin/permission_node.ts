@@ -1,4 +1,4 @@
-import BasePermissionNode from '@gaiajs/gaiajs/app/object/admin/permission_node';
+import BasePermissionNode from 'study-gaiajs/app/object/admin/permission_node';
 
 export default class PermissionNode extends BasePermissionNode {
 

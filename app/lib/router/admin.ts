@@ -1,6 +1,6 @@
-import ContextExtend from '@gaiajs/gaiajs/app/extend/context';
-import GaiaRequest from '@gaiajs/gaiajs/app/lib/request';
-import bpAdmin, { AdminBaseController as BaseAdminBaseController } from '@gaiajs/gaiajs/app/lib/router/admin';
+import ContextExtend from 'study-gaiajs/app/extend/context';
+import GaiaRequest from 'study-gaiajs/app/lib/request';
+import bpAdmin, { AdminBaseController as BaseAdminBaseController } from 'study-gaiajs/app/lib/router/admin';
 import AdminUser from '../../object/admin/user';
 
 export class AdminBaseController extends BaseAdminBaseController {

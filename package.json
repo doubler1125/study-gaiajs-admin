@@ -3,7 +3,7 @@
   "version": "1.0.11",
   "description": "A admin study project from gaiajs",
   "egg": {
-    "framework": "@gaiajs/gaiajs",
+    "framework": "study-gaiajs",
     "typescript": true,
     "declarations": true
   },
@@ -19,7 +19,7 @@
     "gaiajs"
   ],
   "dependencies": {
-    "@gaiajs/gaiajs": "^1.0.9",
+    "study-gaiajs": "^1.0.1",
     "@gaiajs/protocol_builder": "^1.0.0",
     "autod": "^3.0.1",
     "autod-egg": "^1.1.0",

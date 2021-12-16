@@ -4,7 +4,7 @@
  */
 
 import { Context } from 'egg';
-import GaiaResponse from '@gaiajs/gaiajs/app/lib/response';
+import GaiaResponse from 'study-gaiajs/app/lib/response';
 
 import AdminRole from '../types/AdminRole';
 /**

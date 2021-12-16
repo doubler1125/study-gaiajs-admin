@@ -4,7 +4,7 @@
  */
 
 import { Context } from 'egg';
-import Schema from '@gaiajs/gaiajs/app/lib/schema';
+import Schema from 'study-gaiajs/app/lib/schema';
 
 export default class AdminUser extends Schema {
   /**

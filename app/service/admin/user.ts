@@ -1,7 +1,7 @@
 import { Context } from 'egg';
-import { ObjectModelOptions } from '@gaiajs/gaiajs/app/lib/model/ObjectModelService';
+import { ObjectModelOptions } from 'study-gaiajs/app/lib/model/ObjectModelService';
 import AdminUser from '../../object/admin/user';
-import BaseAdminUserModelService from '@gaiajs/gaiajs/app/service/admin/user';
+import BaseAdminUserModelService from 'study-gaiajs/app/service/admin/user';
 import * as crypto from 'crypto';
 
 export default class AdminUserModelService<T extends AdminUser = AdminUser> extends BaseAdminUserModelService<T> {

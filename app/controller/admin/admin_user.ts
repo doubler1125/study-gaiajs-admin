@@ -1,4 +1,4 @@
-import bp from '@gaiajs/gaiajs/app/lib/router/admin_blueprint';
+import bp from 'study-gaiajs/app/lib/router/admin_blueprint';
 import { AdminBaseController } from '../../lib/router/admin';
 import AdminSuperUserRoleAddRequest from '../../net/request/AdminSuperUserRoleAdd';
 import AdminSuperUserRoleDelRequest from '../../net/request/AdminSuperUserRoleDel';
@@ -13,7 +13,7 @@ import AdminSuperUserDelResponse from '../../net/response/AdminSuperUserDel';
 import AdminHasPermissionRequest from '../../net/request/AdminHasPermission';
 import AdminUser from '../../object/admin/user';
 import AdminHasPermissionResponse from '../../net/response/AdminHasPermission';
-import { ObjectProperties } from '@gaiajs/gaiajs/app/object/BasePropertiesObject';
+import { ObjectProperties } from 'study-gaiajs/app/object/BasePropertiesObject';
 
 export default class AdminUserController extends AdminBaseController {
   @bp.action()

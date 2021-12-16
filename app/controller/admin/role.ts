@@ -1,4 +1,4 @@
-import bp from '@gaiajs/gaiajs/app/lib/router/admin_blueprint';
+import bp from 'study-gaiajs/app/lib/router/admin_blueprint';
 import { AdminBaseController } from '../../lib/router/admin';
 import AdminSuperRoleListRequest from '../../net/request/AdminSuperRoleList';
 import AdminSuperRoleRequest from '../../net/request/AdminSuperRole';

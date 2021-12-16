@@ -1,6 +1,6 @@
 import { Context } from 'egg';
-import { ObjectModelOptions } from '@gaiajs/gaiajs/app/lib/model/ObjectModelService';
-import BaseAdminPermissionNodeModelService from '@gaiajs/gaiajs/app/service/admin/permission_node';
+import { ObjectModelOptions } from 'study-gaiajs/app/lib/model/ObjectModelService';
+import BaseAdminPermissionNodeModelService from 'study-gaiajs/app/service/admin/permission_node';
 import PermissionNode from '../../object/admin/permission_node';
 
 export default class AdminPermissionNodeModelService<T extends PermissionNode = PermissionNode> extends BaseAdminPermissionNodeModelService<T> {

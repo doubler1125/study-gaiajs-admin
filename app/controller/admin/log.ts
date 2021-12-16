@@ -1,4 +1,4 @@
-import bp from '@gaiajs/gaiajs/app/lib/router/admin_blueprint';
+import bp from 'study-gaiajs/app/lib/router/admin_blueprint';
 import { AdminBaseController } from '../../lib/router/admin';
 import AdminLogSearchRequest from '../../net/request/AdminLogSearch';
 import AdminLogSearchResponse from '../../net/response/AdminLogSearch';

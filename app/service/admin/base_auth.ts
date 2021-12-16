@@ -1,5 +1,5 @@
-import BaseService from '@gaiajs/gaiajs/app/lib/BaseService';
-import AdminUser from '@gaiajs/gaiajs/app/object/admin/user';
+import BaseService from 'study-gaiajs/app/lib/BaseService';
+import AdminUser from 'study-gaiajs/app/object/admin/user';
 
 export default abstract class BaseAuthService extends BaseService {
   /**
